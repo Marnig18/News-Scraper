@@ -1,0 +1,60 @@
+	<div class="container">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<h3>Mongo Scrapper</h3>
+					</div>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+							<li><a href="/saved">Saved Articles</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div class="jumbotron">
+				<h1>Mongo Scrapper</h1>
+				<p>Refinery29 Edition</p>
+				<p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape!</a></p>
+			</div>
+		
+			<!-- Scrapped articles will go here -->
+			<div class="container" id="Article">
+			{{#each articles}}
+			{{#unless this.saved}}
+			<ul>
+				<div class="row">
+					<div class="col-xs-3 col-md-3">
+						<a href="#" class="thumbnail">
+							<img src="..." alt="...">
+						</a>
+					</div>
+					<div class="col-xs-6 col-md-6">
+						<a id="title" href={{this.link}}>{{this.title}}</a>
+						<p id="description"></p>
+					</div>
+					<div class="col-md-3 col-xs-3">
+						<form class="form-horizontal" method="POST" action="/{{this._id}}">
+							<button class="btn btn-default" id="saveArticle"  data-toggle="modal" data-target="#modal1">Save Article</button>
+						</form>
+					</div>
+					</div>
+				</div>
+				</ul>
+				{{/unless}}
+			{{/each}}
+			</div>
+		
+			<!-- Articles Scrapped Modal -->
+		<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h2>Articles Scrapped!</h2>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div>

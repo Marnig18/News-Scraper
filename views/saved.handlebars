@@ -1,0 +1,89 @@
+<div class="container">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<h3>Mongo Scrapper</h3>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/">Home </a></li>
+					<li class="active"><a href="/saved">Saved Articles<span class="sr-only">(current)</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="jumbotron">
+		<h1>Mongo Scrapper</h1>
+		<p>Refinery29 Edition</p>
+		{{!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Scrape!</a></p> --}}
+	</div>
+	<!-- Scrapped articles will go here -->
+	<div class="container" id="Article">
+		{{#each articles}}
+		{{#if this.saved}}
+		<ul>
+			<div class="row">
+				<div class="col-xs-3 col-md-3">
+					<a href="#" class="thumbnail">
+						<img src="..." alt="...">
+					</a>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<a id="title" href={{this.link}}>{{this.title}}</a>
+					<p id="description"></p>
+				</div>
+				<div class="col-md-3 col-xs-3">
+						<!--notes button form -->
+					<form method="GET" action="/saved/{{this._id}}">
+						<div class="btn-group-vertical" role="group" aria-label="...">
+							<button type="button" class="btn btn-default" id="notes" data-toggle="modal" data-target="#modal{{this._id}}">Notes</button>
+						</div>
+					</form>
+
+					{{!-- form for delete button --}}
+					<form method="GET" action="/delete/{{this._id}}?_method=DELETE">
+						<button type="submit" class="btn btn-default">Delete Article</button>
+					</form>	
+				</div>
+			</div>
+			</ul>
+			{{/if}}
+		{{/each}}
+		
+	</div>
+	{{!-- MODAL --}}
+	{{#each articles}}
+		<div class="modal fade" id="modal{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="modal2">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Note for Article:</h4>
+					</div>
+					{{#each this.note}}
+						<div class="col-sm-10" id="prevNotes">
+								<ul>
+									<p>{{this.title}}</p>
+									<p>{{this.body}}</p>
+								</ul>
+						</div>
+						{{/each}}
+				
+						<form class="form-horizontal" method="POST" action="/saved/{{this._id}}">
+						{{!-- <div class="form-group">
+ --}}					<div class="col-sm-10">
+								<input type="text" name="title" class="form-control" rows="3">
+							</div>
+							<div class="col-sm-10">
+								<textarea class="form-control" name="body" rows="3"></textarea>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">Save changes</button>
+							</div>
+					{{!-- </div> --}}
+						</form>
+				
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div>
+				{{/each}}
