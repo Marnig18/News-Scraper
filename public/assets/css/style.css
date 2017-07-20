@@ -1,0 +1,11 @@
+.jumbocontainer{
+	text-align: center;
+}
+
+body {
+	background-image: url("newpaper.jpg");
+}
+
+#articles{
+	background: #ffffff;
+}

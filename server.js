@@ -207,7 +207,7 @@ app.post("/saved/:id", function(req, res){
 })
 
 
-app.delete("/delete/:id", function(req, res){
+app.post("/delete/:id", function(req, res){
 
 	Article.remove({"_id": req.params.id})
 	.exec(function(err,doc){

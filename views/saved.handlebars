@@ -41,7 +41,7 @@
 					</form>
 
 					{{!-- form for delete button --}}
-					<form method="GET" action="/delete/{{this._id}}?_method=DELETE">
+					<form method="POST" action="/delete/{{this._id}}?_method=DELETE">
 						<button type="submit" class="btn btn-default">Delete Article</button>
 					</form>	
 				</div>
