@@ -6,6 +6,7 @@ var mongoose = require("mongoose");
 // Requiring our Note and Article models
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
+var handlebars = require("handlebars")
 // Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
@@ -48,20 +49,6 @@ app.get("/", function(req,res){
 	res.render("index")
 })
 
-app.get("/saved", function(req, res){
-	Article.find({"saved": true}).exec(function(err, doc){
-		   if (err) {
-      console.log(err);
-    }
-    else{
-    	 var hbsObject = {
-      		articles: doc
-
-      }
-     res.render("saved", hbsObject) 
-    }
-	})
-})
 
 
 //Get request to scrape Refinery29
@@ -77,9 +64,9 @@ app.get("/scrape", function(req, res){
 			 var result = {};
 			//getting title, desription, picture and link for every result object 
 			result.link = $(this).find("a").attr("href");
-			result.picture = $(this).find("a").children("div").find("div.opener-image").find("img").attr("src");
+			result.picture = $(this).find("a").children("div").find("div.opener-image").children("img").attr("src");
 			result.title = $(this).find("a").find("div.story-content").find("div.title span").text();
-			result.description = $(this).find("a").find("div.abstract").text();
+			result.description = $(this).find("a").find("div.abstract").find("div.title").text();
 
 			var entry = new Article(result);
 
@@ -94,8 +81,8 @@ app.get("/scrape", function(req, res){
 			})
 		})
 	})
-	Article.find({}).limit(20).exec(function(err, doc){
-		    if (err) {
+	Article.find({"saved": false}).limit(20).exec(function(err, doc){
+		  if (err) {
       console.log(err);
     }
     // Otherwise, save the result as an handlebars object
@@ -114,6 +101,20 @@ app.get("/scrape", function(req, res){
 
 
 
+	app.get("/saved", function(req, res){
+		Article.find({"saved": true}).exec(function(err, doc){
+			   if (err) {
+	      console.log(err);
+	    }
+	    else{
+	    	 var hbsObject = {
+	      		articles: doc
+
+	      }
+	     res.render("saved", hbsObject) 
+	    }
+		})
+	})
 
 //When save button is clicked 
 app.post("/:id",function(req,res){
@@ -158,8 +159,9 @@ app.get("/saved/123", function(req,res){
 });	 
 
 
-app.get("/saved/:id", function(req, res) {
+app.get("/:id", function(req, res) {
 console.log(req.params.id)
+ 
   Article.findOne({
     "_id": req.params.id
   }).populate("note").exec(function(error, doc){
@@ -173,7 +175,7 @@ console.log(req.params.id)
       	}
       	console.log('worked')
         console.log(doc);
-        res.render("saved", hbsObject)
+       
       }
   	})
 
@@ -223,7 +225,21 @@ app.post("/delete/:id", function(req, res){
 
 })
 
+app.post("/deleteNote/:id", function(req, res){
 
+	Note.remove({"_id": req.params.id})
+	.exec(function(err,doc){
+			if (err) {
+          	res.send(err);
+          }
+        else{
+        	console.log(doc)
+        	return res.redirect("/saved")
+        	}
+        
+	})
+
+})
 
 
 

@@ -20,7 +20,10 @@ var ArticleSchema = new Schema({
 		type: String,
 		
 	},
-	saved:false,
+	saved:{
+		type: Boolean,
+		default: false
+	},
 
 	note:[{
 		type: Schema.Types.ObjectId,

@@ -1,5 +1,11 @@
+.jumbotron{
+	opacity: 0.9;
+}
+
 .jumbocontainer{
 	text-align: center;
+	opacity: 1;
+
 }
 
 body {
@@ -7,5 +13,30 @@ body {
 }
 
 #articles{
-	background: #ffffff;
+	background: #EEEEEE;
+	border-radius: 2%;
+}
+
+ul{
+	list-style: none;
+	margin: 30px 0;
+}
+
+#scrapedArticleListItem{
+	  border: 1px solid #738290;
+    margin: 5px 0;
+}
+
+a{
+	font-family: 'Playfair Display', serif;
+	font-size: 1.1em;
+}
+
+h1{
+	font-family: 'Playfair Display', serif;
+	font-size: 700
+}
+
+button{
+	font-family: 'Playfair Display', serif;
 }

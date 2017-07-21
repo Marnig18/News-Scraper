@@ -11,7 +11,6 @@ $("#modal2").on("click", function(){
 
 
 
-
 // $('#scrappedModel').on('shown.bs.modal', function () {
 //   $('#scrappedModel').focus()
 // })

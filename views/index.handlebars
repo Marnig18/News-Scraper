@@ -24,26 +24,27 @@
 		<div class="row">
 			<div class="col-md-12">
 				<ul>
-					{{#each articles}}
+				{{#each articles}}
 					{{#unless this.saved}}
-						<div class="row">
-							<div class="col-xs-3 col-md-3">
-								<a href="#" class="thumbnail">
-									<img src="..." alt="...">
-								</a>
+						<li id="scrapedArticleListItem">
+							<div class="row">
+								<div class="col-xs-3 col-md-3">
+									<a href="#" class="thumbnail">
+										<img src="..." alt="...">
+									</a>
+								</div>
+								<div class="col-xs-6 col-md-6">
+									<a id="title" href={{this.link}}>{{this.title}}</a>
+									<p id="description"></p>
+								</div>
+								<div class="col-md-3 col-xs-3">
+									<form class="form-horizontal" method="POST" action="/{{this._id}}">
+										<button class="btn btn-default" id="saveArticle"  data-toggle="modal" data-target="#modal1">Save Article</button>
+									</form>
+								</div>
 							</div>
-							<div class="col-xs-6 col-md-6">
-								<a id="title" href={{this.link}}>{{this.title}}</a>
-								<p id="description"></p>
-							</div>
-							<div class="col-md-3 col-xs-3">
-								<form class="form-horizontal" method="POST" action="/{{this._id}}">
-									<button class="btn btn-default" id="saveArticle"  data-toggle="modal" data-target="#modal1">Save Article</button>
-								</form>
-							</div>
-						</div>
-					</div>	
-				{{/unless}}
+						</li>
+					{{/unless}}
 				{{/each}}
 			</ul>
 		</div>
