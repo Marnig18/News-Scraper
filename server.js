@@ -102,9 +102,10 @@ app.get("/scrape", function(req, res){
 
 
 	app.get("/saved", function(req, res){
-		Article.find({"saved": true}).exec(function(err, doc){
-			   if (err) {
-	      console.log(err);
+		Article.find({"saved": true}).populate("note").
+		exec(function(error, doc){
+			   if (error) {
+	      console.log(error);
 	    }
 	    else{
 	    	 var hbsObject = {
