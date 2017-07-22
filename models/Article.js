@@ -16,14 +16,20 @@ var ArticleSchema = new Schema({
 		type: String,
 		
 	}, 
-	picture:{
-		type: String,
-		
+		picture:{
+			type: String,
+
 	},
+
 	saved:{
 		type: Boolean,
 		default: false
 	},
+
+	created_at:{
+		type: Date,
+		default: Date.now
+  },
 
 	note:[{
 		type: Schema.Types.ObjectId,

@@ -55,19 +55,24 @@ app.get("/", function(req,res){
 app.get("/scrape", function(req, res){
 
 	//grabbing body of the HTML
-	request("http://www.refinery29.com/", function(error, response, html){
+	request("http://www.huffingtonpost.com/", function(error, response, html){
+	// request("http://www.refinery29.com/", function(error, response, html){
 		//loading the body of the html into cheerio and saving as $
 		var $ = cheerio.load(html);
 		//grabbing very div with class card and 
-		$("div.card.standard").each(function(i, element){
+		$("div.card--twilight").each(function(i, element){
 			//save result as a results object
 			 var result = {};
-			//getting title, desription, picture and link for every result object 
-			result.link = $(this).find("a").attr("href");
-			result.picture = $(this).find("a").children("div").find("div.opener-image").children("img").attr("src");
-			result.title = $(this).find("a").find("div.story-content").find("div.title span").text();
-			result.description = $(this).find("a").find("div.abstract").find("div.title").text();
-
+			// //getting title, desription, picture and link for every result object 
+			// result.link = $(this).find("a").attr("href");
+			// result.picture = $(this).find("a").children("div").find("div.opener-image").children("img").attr("src");
+			// result.title = $(this).find("a").find("div.story-content").find("div.title span").text();
+			// result.description = $(this).find("a").find("div.abstract").find("div.title").text();
+			result.title =$(this).find("div.card__details").children("div.card__headlines").find("h2").find("a").text();
+			result.link =$(this).find("div.card__details").children("div.card__headlines").find("a").attr("href")
+			result.picture= $(this).children("div.card__content").find("a").find("div.card__image__wrapper").find("img").attr('src')
+			result.description= $(this).find("div.card__details").children("div.card__headlines").find("div.card__description").find("a").text();
+			
 			var entry = new Article(result);
 
 			entry.save(function(err,doc){
@@ -81,7 +86,7 @@ app.get("/scrape", function(req, res){
 			})
 		})
 	})
-	Article.find({"saved": false}).limit(20).exec(function(err, doc){
+	Article.find({"saved": false}).limit(20).sort({"created_at" : -1}).exec(function(err, doc){
 		  if (err) {
       console.log(err);
     }
@@ -137,8 +142,9 @@ app.post("/:id",function(req,res){
       		articles: doc
 
       }
+      console.log("worked")
      	res.redirect("/scrape")
-     	console.log("worked")
+     	
      	console.log(doc)
 
      }
@@ -146,18 +152,6 @@ app.post("/:id",function(req,res){
 
 })
 
-
-app.get("/saved/123", function(req,res){
-	console.log("worked")
-	 Article.find({}).populate("note").exec(function(error, doc){
-      if (error) {
-        res.send(error);
-      }
-      else{
-      	console.log(doc)
-      }
-	})
-});	 
 
 
 app.get("/:id", function(req, res) {
