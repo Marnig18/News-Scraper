@@ -13,7 +13,7 @@ var cheerio = require("cheerio");
 var exphbs = require("express-handlebars");
 var methodOverride = require("method-override");
 // Set mongoose to leverage built in JavaScript ES6 Promises
-mongoose.Promise = Promise;
+// mongoose.Promise = Promise;
 
 var app = express();
 
@@ -29,7 +29,7 @@ app.use(express.static("public"));
 	app.set("view engine", "handlebars");	
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/mongoScrapper");
+mongoose.connect("mongodb://heroku_skgbrh50:jeol71hr13cbmh7nj9hljqkfbo@ds163672.mlab.com:63672/heroku_skgbrh50");
 var db = mongoose.connection;
 
 // Show any mongoose errors
