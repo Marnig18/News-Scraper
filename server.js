@@ -34,7 +34,8 @@ app.use(express.static("public"));
 var promise = mongoose.connect("mongodb://heroku_skgbrh50:jeol71hr13cbmh7nj9hljqkfbo@ds163672.mlab.com:63672/heroku_skgbrh50",{
 	  useMongoClient: true,
 	});
-// var db = mongoose.connection;
+
+var db = mongoose.connection;
 
 // Show any mongoose errors
 db.on("error", function(error) {
