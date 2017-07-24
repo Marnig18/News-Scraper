@@ -17,6 +17,8 @@ mongoose.Promise = Promise;
 
 var app = express();
 
+var PORT = process.env.PORT || 4000;
+
 // Use morgan and body parser with our app
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({
@@ -47,10 +49,6 @@ db.once("open", function() {
 //ROUTES
 //=========
 ////Loading Index page
-app.get("/", function(req,res){
-	res.render("index")
-})
-
 
 
 //Get request to scrape Refinery29
@@ -58,7 +56,6 @@ app.get("/scrape", function(req, res){
 
 	//grabbing body of the HTML
 	request("http://www.huffingtonpost.com/", function(error, response, html){
-	// request("http://www.refinery29.com/", function(error, response, html){
 		//loading the body of the html into cheerio and saving as $
 		var $ = cheerio.load(html);
 		//grabbing very div with class card and 
@@ -237,10 +234,15 @@ app.post("/deleteNote/:id", function(req, res){
 	})
 
 })
+app.get("/", function(req,res){
+	res.render("index")
+})
 
 
 
 
-app.listen(4000, function() {
+
+
+app.listen(PORT, function() {
   console.log("App running on port 4000!");
 });
